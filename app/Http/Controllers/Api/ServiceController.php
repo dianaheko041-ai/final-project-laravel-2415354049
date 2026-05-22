@@ -21,6 +21,18 @@ class ServiceController extends Controller
         ]);
     }
 
+    // GET services by status
+    public function getByStatus($status): JsonResponse
+    {
+        $services = Service::where('status', $status)->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Services by status retrieved successfully',
+            'data' => $services
+        ]);
+    }
+
     // CREATE service
     public function store(Request $request): JsonResponse
     {
@@ -82,6 +94,32 @@ class ServiceController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Service updated successfully',
+            'data' => $service
+        ]);
+    }
+
+    // CHANGE STATUS
+    public function changeStatus(Request $request, $id): JsonResponse
+    {
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Service not found'
+            ], 404);
+        }
+
+        $request->validate([
+            'status' => ['required', 'boolean']
+        ]);
+
+        $service->status = $request->status;
+        $service->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Service status updated successfully',
             'data' => $service
         ]);
     }
