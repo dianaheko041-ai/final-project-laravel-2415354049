@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class ServiceController extends Controller
 {
+    // GET all services
     public function index(): JsonResponse
     {
         $services = Service::latest()->get();
@@ -20,6 +21,7 @@ class ServiceController extends Controller
         ]);
     }
 
+    // CREATE service
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -38,6 +40,7 @@ class ServiceController extends Controller
         ], 201);
     }
 
+    // GET service by id
     public function show($id): JsonResponse
     {
         $service = Service::find($id);
@@ -55,6 +58,7 @@ class ServiceController extends Controller
         ]);
     }
 
+    // UPDATE service
     public function update(Request $request, $id): JsonResponse
     {
         $service = Service::find($id);
@@ -82,6 +86,7 @@ class ServiceController extends Controller
         ]);
     }
 
+    // DELETE service
     public function destroy($id): JsonResponse
     {
         $service = Service::find($id);
